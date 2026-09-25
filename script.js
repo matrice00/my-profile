@@ -11,7 +11,7 @@ const profile = {
   // YOUR NAME
   // =========================
 
-  name: "Yahya Bagar",
+  name: "BAGAR Yahya",
 
   // =========================
   // YOUR LINKS
@@ -21,7 +21,7 @@ const profile = {
     {
       title: "Instagram",
 
-      url: "https://instagram.com/YOUR_USERNAME",
+      url: "https://www.instagram.com/__st_7en/#",
 
       icon: "◎",
     },
@@ -36,7 +36,7 @@ const profile = {
 
       */
 
-      url: "https://wa.me/2126XXXXXXXX",
+      url: "https://wa.me/212614618104",
 
       icon: "◉",
     },
@@ -44,11 +44,11 @@ const profile = {
     {
       title: "Email",
 
-      url: "mailto:YOUR_EMAIL@gmail.com",
+      url: "bagaryahya@gmail.com",
 
       icon: "✉",
     },
-
+/*
     {
       title: "Portfolio",
 
@@ -56,6 +56,7 @@ const profile = {
 
       icon: "⌁",
     },
+*/
   ],
 };
 
