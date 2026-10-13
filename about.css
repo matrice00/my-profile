@@ -1,0 +1,317 @@
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --accent: #c4b5fd;
+  --text: #fff;
+  --muted: #aaa;
+}
+
+html {
+  min-height: 100%;
+  background: #050505;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: #050505;
+}
+
+.about-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  padding: 100px 24px 35px;
+  background: #050505 url("profile.jpg") center 25% / cover no-repeat;
+}
+
+.background-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.25) 0%,
+      rgba(0,0,0,.68) 35%,
+      #050505 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.65),
+      rgba(0,0,0,.12)
+    );
+}
+
+.back-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 30px;
+  color: white;
+  text-decoration: none;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: .25s;
+}
+
+.back-btn span {
+  font-size: 20px;
+}
+
+.back-btn:hover {
+  border-color: var(--accent);
+  transform: translateX(-3px);
+}
+
+.about-content {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding-top: 12vh;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 4px;
+}
+
+h1 {
+  margin: 18px 0;
+  font-size: clamp(48px, 12vw, 76px);
+  font-weight: 900;
+  letter-spacing: -3px;
+  line-height: .92;
+}
+
+h1 span {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.75);
+  margin-top: 8px;
+}
+
+.accent-line {
+  width: 60px;
+  height: 4px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #777, #fff);
+  margin: 26px 0;
+}
+
+h2 {
+  font-size: 25px;
+  margin: 0 0 12px;
+}
+
+.description {
+  color: #c2c2c2;
+  font-size: 15px;
+  line-height: 1.9;
+  max-width: 440px;
+}
+
+.info-card {
+  margin-top: 26px;
+  padding: 22px;
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 18px;
+  background: rgba(12,12,12,.62);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.label {
+  margin: 0 0 7px;
+  color: #999;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+.value {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.separator {
+  height: 1px;
+  background: rgba(255,255,255,.10);
+  margin: 17px 0;
+}
+
+.home-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding: 17px 20px;
+  border-radius: 12px;
+  color: #080808;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 750;
+  text-decoration: none;
+  transition: .25s;
+}
+
+.home-btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.home-btn span {
+  font-size: 19px;
+}
+
+.footer {
+  max-width: 520px;
+  margin: 38px auto 0;
+  color: #777;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+@media (min-width: 700px) {
+  .about-page {
+    padding-top: 100px;
+  }
+
+  .about-content {
+    padding-top: 8vh;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-page {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .back-btn {
+    left: 18px;
+  }
+
+  .info-card {
+    padding: 18px;
+  }
+}
+
+/* ABOUT ME — BEAUTIFUL NOTE CARD */
+
+.about-note {
+  position: relative;
+  margin-top: 30px;
+  padding: 25px 23px 22px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, .17);
+  border-radius: 5px 22px 22px 5px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,.09),
+    rgba(255,255,255,.025) 60%,
+    rgba(139,92,246,.07)
+  );
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.25),
+    inset 3px 0 0 rgba(196,181,253,.8);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 27px;
+}
+
+.note-label {
+  color: #b9a4ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.note-star {
+  color: #c4b5fd;
+  font-size: 23px;
+}
+
+.about-note h2 {
+  margin: 0;
+  font-size: clamp(30px, 7vw, 40px);
+  font-weight: 850;
+  line-height: 1.13;
+  letter-spacing: -1.5px;
+}
+
+.about-note h2 span {
+  color: #a78bfa;
+}
+
+.note-line {
+  width: 45px;
+  height: 3px;
+  margin: 20px 0;
+  border-radius: 10px;
+  background: linear-gradient(
+    90deg,
+    #a78bfa,
+    transparent
+  );
+}
+
+.about-note .description {
+  margin: 0;
+  color: #d0ced6;
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 27px;
+  padding-top: 17px;
+  border-top: 1px solid rgba(255,255,255,.13);
+}
+
+.note-footer > span:first-child {
+  color: #aaa;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.note-footer .handwritten {
+  color: #c4b5fd;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+}
