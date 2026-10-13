@@ -1,523 +1,201 @@
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+/*
+========================================
+       MY PERSONAL PROFILE
+========================================
+
+Change your information here.
+*/
+
+const profile = {
+  // =========================
+  // YOUR NAME
+  // =========================
+
+  name: "Yahya Bagar",
+
+  // =========================
+  // YOUR LINKS
+  // =========================
+
+  links: [
+    {
+      title: "Instagram",
+      url: "https://www.instagram.com/__st_7en/",
+      icon: "◎",
+    },
+
+    {
+      title: "WhatsApp",
+      url: "https://wa.me/212614618104",
+      icon: "◉",
+    },
+
+    {
+      title: "Email",
+      url: "https://mail.google.com/mail/?view=cm&fs=1&to=bagaryahya@gmail.com",
+      icon: "✉",
+    },
+
+    /*
+    {
+      title: "Portfolio",
+      url: "https://example.com",
+      icon: "⌁",
+    },
+    */
+  ],
+};
+
+/*
+========================================
+             SHOW NAME
+========================================
+*/
+
+document.getElementById("name").textContent = profile.name;
+
+/*
+========================================
+            CREATE LINKS
+========================================
+*/
+
+const linksContainer = document.getElementById("links");
+
+function toHref(url) {
+  const raw = String(url || "").trim();
+
+  // Email addresses written without a protocol
+  if (
+    raw.includes("@") &&
+    !raw.includes("://") &&
+    !raw.toLowerCase().startsWith("mailto:")
+  ) {
+    return `mailto:${raw}`;
+  }
+
+  return raw;
 }
 
-/* =========================
-   VARIABLES
-========================= */
+// Clear existing links before rendering
+linksContainer.replaceChildren();
 
-:root {
-  --bg: #050505;
-  --card: #080808;
-  --text: #ffffff;
-  --muted: #a5a5a5;
-  --border: rgba(255,255,255,.10);
-  --accent: #8b5cf6;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-right: env(safe-area-inset-right, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-left: env(safe-area-inset-left, 0px);
-  --page-pad: max(16px, var(--safe-left));
-}
+profile.links.forEach((item) => {
+  const a = document.createElement("a");
+  const href = toHref(item.url);
 
-/* =========================
-   PROFESSIONAL NAME
-========================= */
+  a.className = "link-card";
+  a.href = href;
 
-.hero h1 {
-  position: absolute;
-  z-index: 2;
-  left: max(20px, var(--safe-left));
-  right: max(20px, var(--safe-right));
-  bottom: 30px;
-  margin: 0;
+  // Open external links in a new tab
+  a.target = href.startsWith("mailto:") ? "_self" : "_blank";
+  a.rel = "noopener noreferrer";
 
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-  font-size: clamp(36px, 9vw, 54px);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -1.8px;
+  // Build link content safely
+  const icon = document.createElement("span");
+  icon.className = "link-icon";
+  icon.textContent = item.icon;
 
-  color: #ffffff;
-  text-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.45),
-    0 12px 30px rgba(0, 0, 0, 0.5);
+  const title = document.createElement("span");
+  title.textContent = item.title;
 
-  overflow-wrap: anywhere;
-}
+  const more = document.createElement("span");
+  more.className = "more";
+  more.textContent = "⋮";
 
-/* Elegant purple accent under the name */
-.hero h1::after {
-  content: "";
-  display: block;
-  width: 58px;
-  height: 4px;
-  margin-top: 12px;
+  a.append(icon, title, more);
+  linksContainer.appendChild(a);
+});
 
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    #332c42,
-    #c4b5fd
+/*
+========================================
+             SHARE BUTTON
+========================================
+*/
+
+document.getElementById("shareBtn").addEventListener("click", async () => {
+  const url = window.location.href;
+
+  // Use native sharing when available
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: profile.name,
+        text: `Connect with ${profile.name}`,
+        url: url,
+      });
+
+      return;
+    } catch (error) {
+      // Continue to clipboard if sharing was cancelled or failed
+    }
+  }
+
+  // Otherwise, copy the profile URL
+  try {
+    await navigator.clipboard.writeText(url);
+    showToast("Profile link copied!");
+  } catch (error) {
+    showToast("Copy the page URL from your browser.");
+  }
+});
+
+/*
+========================================
+             THEME BUTTON
+========================================
+*/
+
+let darkAlt = false;
+
+document.getElementById("themeBtn").addEventListener("click", () => {
+  darkAlt = !darkAlt;
+
+  // Change accent color
+  document.documentElement.style.setProperty(
+    "--accent",
+    darkAlt ? "#22d3ee" : "#8b5cf6",
   );
 
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
-}
-
-/* =========================
-   ABOUT BUTTON
-========================= */
-
-.social-icon {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  margin: 8px auto 18px;
-
-  display: grid;
-  place-items: center;
-
-  color: #ffffff;
-  font-size: 32px;
-  text-decoration: none;
-
-  border: 1px solid transparent;
-  border-radius: 50%;
-
-  transition:
-    color 0.25s ease,
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease;
-}
-
-.social-icon span {
-  display: block;
-  line-height: 1;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .social-icon:hover {
-    color: #c4b5fd;
-    border-color: rgba(139, 92, 246, 0.45);
-    background: rgba(139, 92, 246, 0.08);
-    transform: translateY(-2px);
-  }
-}
-
-.social-icon:active {
-  transform: scale(0.94);
-}
-
-.social-icon:focus-visible {
-  outline: 2px solid #8b5cf6;
-  outline-offset: 4px;
-}
-/* =========================
-   BODY
-========================= */
-
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
-html,
-body {
-  margin: 0;
-  min-height: 100%;
-  background: var(--bg);
-  color: var(--text);
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    Helvetica,
-    sans-serif;
-}
-
-body {
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
-}
-
-img {
-  max-width: 100%;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-button,
-a {
-  touch-action: manipulation;
-}
-
-/* =========================
-   MAIN PAGE
-========================= */
-
-.page {
-  width: 100%;
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  justify-content: center;
-}
-
-/* =========================
-   PROFILE CONTAINER
-========================= */
-
-.profile {
-  position: relative;
-  width: 100%;
-  max-width: 480px;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background:
-    radial-gradient(
-      circle at 82% 30%,
-      rgba(130,70,255,.18),
-      transparent 20%
-    ),
-    linear-gradient(
-      180deg,
-      #090909 0%,
-      #050505 100%
-    );
-  overflow-x: hidden;
-}
-
-/* =========================
-   TOP BUTTONS
-========================= */
-
-.icon-btn {
-  position: absolute;
-  z-index: 10;
-  top: calc(12px + var(--safe-top));
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 50%;
-  background: rgba(0,0,0,.48);
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: grid;
-  place-items: center;
-  padding: 0;
-  transition:
-    transform .2s ease,
-    background .2s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .icon-btn:hover {
-    transform: scale(1.06);
-    background: rgba(255,255,255,.12);
-  }
-}
-
-.icon-btn:active {
-  transform: scale(.96);
-}
-
-.top-left {
-  left: calc(16px + var(--safe-left));
-}
-
-.top-right {
-  right: calc(16px + var(--safe-right));
-}
-
-/* =========================
-   HERO  (70% of phone screen)
-========================= */
-
-.hero {
-  position: relative;
-  height: 70vh;
-  height: 70dvh;
-  min-height: 280px;
-  overflow: hidden;
-}
-
-.hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  display: block;
-  filter:
-    saturate(.85)
-    contrast(1.05);
-}
-
-/* =========================
-   IMAGE OVERLAY
-========================= */
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.18) 0%,
-      rgba(0,0,0,.06) 42%,
-      #050505 100%
-    );
-}
-
-/* =========================
-   NAME
-========================= */
-
-.hero h1 {
-  position: absolute;
-  left: max(20px, var(--safe-left));
-  right: max(20px, var(--safe-right));
-  bottom: 28px;
-  margin: 0;
-  font-size: clamp(34px, 10vw, 52px);
-  line-height: .98;
-  letter-spacing: -1px;
-  font-weight: 800;
-  text-transform: none;
-  overflow-wrap: anywhere;
-  text-shadow: 0 5px 30px rgba(0,0,0,.45);
-}
-
-/* =========================
-   SOCIAL ICON
-========================= */
-
-.social-icon {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  margin: 2px auto 18px;
-  display: grid;
-  place-items: center;
-  font-size: 34px;
-}
-
-.social-icon span {
-  display: block;
-  line-height: 1;
-}
-
-/* =========================
-   LINKS CONTAINER
-========================= */
-
-.links {
-  padding:
-    0
-    max(20px, var(--safe-left), var(--safe-right))
-    calc(28px + var(--safe-bottom));
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* =========================
-   LINK BUTTON
-========================= */
-
-.link-card {
-  min-height: 52px;
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.05);
-  background: #030303;
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 46px;
-  position: relative;
-  font-size: 15px;
-  font-weight: 650;
-  transition:
-    transform .18s ease,
-    background .18s ease,
-    border-color .18s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .link-card:hover {
-    transform: translateY(-2px);
-    background: #111;
-    border-color: rgba(255,255,255,.13);
-  }
-}
-
-.link-card:active {
-  transform: scale(.98);
-  background: #111;
-}
-
-/* =========================
-   LINK ICON
-========================= */
-
-.link-icon {
-  position: absolute;
-  left: 18px;
-  font-size: 19px;
-}
-
-/* =========================
-   THREE DOTS
-========================= */
-
-.more {
-  position: absolute;
-  right: 14px;
-  color: #aaa;
-  font-size: 20px;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(20px + var(--safe-bottom));
-  transform: translate(-50%, 20px);
-  background: #fff;
-  color: #000;
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  opacity: 0;
-  pointer-events: none;
-  transition: .25s ease;
-  z-index: 99;
-  max-width: calc(100vw - 32px);
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translate(-50%, 0);
-}
-
-/* =========================
-   SMALL PHONES
-========================= */
-
-@media (max-width: 360px) {
-  .hero h1 {
-    font-size: clamp(30px, 10.5vw, 42px);
-    letter-spacing: -1.5px;
-  }
-
-  .links {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .link-card {
-    min-height: 50px;
-    font-size: 14px;
-  }
-}
-
-/* =========================
-   SHORT / SMALL SCREENS
-========================= */
-
-@media (max-height: 700px) {
-  .social-icon {
-    margin: 0 auto 12px;
-  }
-
-  .hero h1 {
-    bottom: 20px;
-  }
-}
-
-/* =========================
-   LANDSCAPE PHONES
-========================= */
-
-@media (orientation: landscape) and (max-height: 560px) {
-  .profile {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(240px, 1fr);
-    grid-template-rows: auto 1fr;
-    align-items: stretch;
-    width: 100%;
-    max-width: none;
-    min-height: 100vh;
-    min-height: 100dvh;
-    height: 100vh;
-    height: 100dvh;
-  }
-
-  .hero {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    height: 100%;
-    min-height: 0;
-  }
-
-  .hero h1 {
-    font-size: clamp(28px, 6vw, 44px);
-    bottom: 16px;
-    letter-spacing: -1.5px;
-  }
-
-  .icon-btn {
-    width: 40px;
-    height: 40px;
-  }
-
-  .social-icon {
-    grid-column: 2;
-    margin: 18px auto 8px;
-  }
-
-  .links {
-    grid-column: 2;
-    padding: 0 16px calc(16px + var(--safe-bottom));
-    justify-content: center;
-  }
-}
-
-/* =========================
-   LARGE SCREENS (not phones)
-========================= */
-
-@media (min-width: 700px) and (min-height: 600px) {
-  body {
-    padding: 24px 0;
-    background: #000;
-  }
-
-  .profile {
-    width: min(100%, 430px);
-    min-height: calc(100vh - 48px);
-    min-height: calc(100dvh - 48px);
-    border-radius: 18px;
-    box-shadow: 0 20px 70px rgba(0,0,0,.55);
-    overflow: hidden;
-  }
-
-  .hero {
-    height: 70vh;
-    height: 70dvh;
-  }
+  // Change profile background
+  document.querySelector(".profile").style.background = darkAlt
+    ? `
+      radial-gradient(
+        circle at 82% 30%,
+        rgba(34, 211, 238, 0.16),
+        transparent 20%
+      ),
+      linear-gradient(180deg, #090909, #050505)
+    `
+    : `
+      radial-gradient(
+        circle at 82% 30%,
+        rgba(130, 70, 255, 0.18),
+        transparent 20%
+      ),
+      linear-gradient(180deg, #090909, #050505)
+    `;
+});
+
+/*
+========================================
+                TOAST
+========================================
+*/
+
+let toastTimer;
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1800);
 }
